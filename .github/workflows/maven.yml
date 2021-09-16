@@ -38,8 +38,11 @@ jobs:
     - name: Clean and Package With Profiles
       if: github.event.inputs.profiles != ''
       run: mvn -P ${{ github.event.inputs.profiles }} clean package
+    - name: Show jacoco.xml
+      if: github.event_name == 'push'
+      run: cat servicekeeper-core/target/site/jacoco/jacoco.xml
     - name: Upload coverage to Codecov
       if: github.event_name == 'push'
       uses: codecov/codecov-action@v1.0.15
       with:
-          token: ${{secrets.CODECOV_TOKEN}}
+        token: ${{secrets.CODECOV_TOKEN}}
